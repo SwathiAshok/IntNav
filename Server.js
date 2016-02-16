@@ -1,23 +1,24 @@
 var express = require("express");
+var math = require("mathjs");
 var app = express();
 var bodyParser = require("body-parser");
 var router = express.Router();
-var mongoOp = require("./model/mongo");
+var mongoOp = require("./models/mongo");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended" : false}));
 
 router.get("/",function(req,res){
-    res.json({"error" : false,"message" : "Hello World"});
+    res.json("IN Backend");
 });
 
-router.route("/users")
+router.route("/AP")
     .get(function(req,res){
         var response = {};
         mongoOp.find({},function(err,data){
             if(err) {
                 response = "Error fetching data";
             } else {
-                response = {"error" : false,"message" : data};
+                response = data;
             }
             res.json(response);
         });
@@ -28,47 +29,53 @@ router.route("/users")
         db.BSSID = req.body.BSSID;
         db.xco = req.body.xco;
         db.yco = req.body.yco;
+        db.zco = req.body.zco;
         
         db.save(function(err){
             if(err) {
-                response = {"error" : true,"message" : "Error adding data"};
+                response = "Error adding data";
             } else {
-                response = {"error" : false,"message" : "Data added"};
+                response = "Data added";
             }
             res.json(response);
         });
     });
 
-router.route("/users/:BSSID")
+router.route("/AP/:BSSID")
     .get(function(req,res){
         var response = {};
-        mongoOp.findById(req.query.BSSID,function(err,data){
+        mongoOp.findOne({ BSSID : req.params.BSSID },function(err,data){
             if(err) {
-                response = {"error" : true,"message" : "Error fetching data"};
+                response = "Error fetching data";
             } else {
-                response = {"error" : false,"message" : data};
+                response = data;
             }
             res.json(response);
         });
     })
+
+router.route("/AP/:id")
     .put(function(req,res){
         var response = {};
         mongoOp.findById(req.params.id,function(err,data){
             if(err) {
-                response = {"error" : true,"message" : "Error fetching data"};
+                response = "Error fetching data";
             } else {
                 if(req.body.BSSID !== undefined) {
                     data.BSSID = req.body.BSSID;
                 }
-                if(req.body.x !== undefined) {
+                if(req.body.xco !== undefined) {
                     data.xco = req.body.xco;
                 }
-                if(req.body.y !== undefined) {
+                if(req.body.yco !== undefined) {
                     data.yco = req.body.yco;
+                }
+                 if(req.body.zco !== undefined) {
+                    data.zco = req.body.yco;
                 }
                 data.save(function(err){
                     if(err) {
-                        response = {"error" : true,"message" : "Error updating data"};
+                        response = "Error updating data";
                     } else {
                         response = {"error" : false,"message" : "Data is updated for "+req.params.id};
                     }
@@ -77,22 +84,35 @@ router.route("/users/:BSSID")
             }
         });
     })
-    .delete(function(req,res){
+   .delete(function(req,res){
         var response = {};
         mongoOp.findById(req.params.id,function(err,data){
             if(err) {
-                response = {"error" : true,"message" : "Error fetching data"};
+                response = "Error fetching data";
             } else {
                 mongoOp.remove({_id : req.params.id},function(err){
                     if(err) {
-                        response = {"error" : true,"message" : "Error deleting data"};
+                        response = "Error deleting data";
                     } else {
-                        response = {"error" : true,"message" : "Data associated with "+req.params.id+"is deleted"};
+                        response = {"error" : false,"message" : "Data associated with "+req.params.id+"is deleted"};
                     }
                     res.json(response);
                 });
             }
         });
+    })
+
+router.route("/CAL")
+    .post(function(req,res){
+        var ip = new mongoOp();
+        var response = {};
+       
+        ip.x = req.body.x;
+        ip.y = req.body.y;
+        ip.d = req.body.d;
+
+        Number x
+
     })
 
 app.use('/',router);
