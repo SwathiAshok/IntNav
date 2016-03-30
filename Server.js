@@ -3,7 +3,6 @@ var math = require("mathjs");
 var app = express();
 var bodyParser = require("body-parser");
 var router = express.Router();
-
 var mongoose    =   require("mongoose");
 mongoose.connect('mongodb://localhost:27017/demoDb');
 
@@ -117,10 +116,11 @@ router.route("/AP/:id")
         });
     })
 
-//Triangulation???
+//Triangulation
 router.route("/CAL")
     .post(function(req,res){
     
+        console.log(req.body);
         var d1 = req.body.d[0];
         var d2 = req.body.d[1];
         var d3 = req.body.d[2];
@@ -135,37 +135,14 @@ router.route("/CAL")
 
         console.log([d1,d2,d3,x1,x2,x3,y1,y2,y3]);
 
-        // var A=2*(x2-x1);
-        // var B=2*(y2-y1);
-        // var D=2*(x3-x2);
-        // var E=2*(y3-y2);
-        // var C = math.pow(d1,2) - math.pow(d2,2) - math.pow(x1,2) - math.pow(x2,2) - math.pow(y1,2) - math.pow(y2,2);
-        // var F = math.pow(d2,2) - math.pow(d3,2) - math.pow(x2,2) - math.pow(x3,2) - math.pow(y2,2) - math.pow(y3,2);
-
-        // console.log([A,B,C,D,E,F]);
-
-        // var x=math.abs(((C*D)-(F*A))/((B*D)-(E*A)));
-        // var y=math.abs(((A*E)-(D*B))/((C*E)-(F*B)));
-
-        // var y=((u-v)*(x3-x2))/((y1-y2)*(x3-x2)-(y3-y2)*(x1-x2));
-        // var x=u-(y*(y3-y2)/(x3-x2));
-        
         var u= (math.pow(d2,2)-math.pow(d3,2)-math.pow(x2,2)+math.pow(x3,2)-math.pow(y2,2)+math.pow(y3,2))/2;
         var v= (math.pow(d2,2)-math.pow(d1,2)-math.pow(x2,2)+math.pow(x1,2)-math.pow(y2,2)+math.pow(y1,2))/2;
-
-
         var y = (((v * (x3-x2) - u * (x1-x2)) / (((y1 - y2)*(x3 - x2))-((y3 - y2)*(x1 - x2)))));
         var x = (u - y * (y3 - y2) ) / (x3 - x2);
 
         console.log(u,v);
-
-        // var x = (math.pow(d2,2)-math.pow(d1,2)+math.pow(x1,2)-math.pow(x2,2))/(2*(x1-x2));
-        // var y = math.sqrt(math.abs(math.pow(d1,2)-math.pow(x1,2)+math.pow(x,2)-2*x*x1+y1));
-        
         console.log({"xi":x,"yi":y});
-
         res.json({"xi":x,"yi":y});
-        
     })
 
 //Meeting Rooms GET PUT POST DELETE
@@ -265,6 +242,38 @@ router.route("/LOC/:id")
         });
     })
 
+router.route("/Vertex")
+    .post(function(req,res){
+        console.log(req.body);
+        var response={};
+        var floor=req.body.floor;
+        var vertex=req.body.vertex;
+        console.log(floor,vertex);
+        var matrix = require("./matrix.json");       
+        JSON.stringify(matrix);
+        for(i=0; i<1; i++) {
+            if(matrix.floor==floor)
+                response={"array" : matrix.vertices[vertex].m, "length": matrix.length, "vcox": matrix.vcox, "vcoy": matrix.vcoy};
+        }
+        res.json(response);       
+    });
+
+router.route("/VCO")
+    .post(function(req,res){
+        console.log(req.body);
+        var response={};
+        var floor=req.body.floor;
+        console.log(floor);
+        var vcos = require("./vcos.json");       
+        JSON.stringify(vcos);
+        for(i=0; i<1; i++) {
+            if(vcos.floor==floor)
+                response={"length": vcos.length, "xco": vcos.xco, "yco": vcos.yco};
+        }
+        res.json(response);       
+        console.log(response);
+    });
+   
 app.use('/',router);
 
 app.listen(3000);

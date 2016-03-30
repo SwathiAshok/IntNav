@@ -7,7 +7,7 @@
 6 silly lifecycle nodeMongo@1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle nodeMongo@1.0.0~start: nodeMongo@1.0.0
 8 verbose lifecycle nodeMongo@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle nodeMongo@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/swathia/IntNav/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+9 verbose lifecycle nodeMongo@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/swathia/IntNav/node_modules/.bin:/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 10 verbose lifecycle nodeMongo@1.0.0~start: CWD: /Users/swathia/IntNav
 11 silly lifecycle nodeMongo@1.0.0~start: Args: [ '-c', 'node server.js' ]
 12 silly lifecycle nodeMongo@1.0.0~start: Returned: code: 1  signal: null
