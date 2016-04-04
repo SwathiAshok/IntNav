@@ -133,8 +133,6 @@ router.route("/CAL")
         var y2 = req.body.y[1];
         var y3 = req.body.y[2];
 
-        console.log([d1,d2,d3,x1,x2,x3,y1,y2,y3]);
-
         var u= (math.pow(d2,2)-math.pow(d3,2)-math.pow(x2,2)+math.pow(x3,2)-math.pow(y2,2)+math.pow(y3,2))/2;
         var v= (math.pow(d2,2)-math.pow(d1,2)-math.pow(x2,2)+math.pow(x1,2)-math.pow(y2,2)+math.pow(y1,2))/2;
         var y = (((v * (x3-x2) - u * (x1-x2)) / (((y1 - y2)*(x3 - x2))-((y3 - y2)*(x1 - x2)))));
@@ -248,7 +246,7 @@ router.route("/Vertex")
         var response={};
         var floor=req.body.floor;
         var vertex=req.body.vertex;
-        console.log(floor,vertex);
+        
         var matrix = require("./matrix.json");       
         JSON.stringify(matrix);
         for(i=0; i<1; i++) {
@@ -264,14 +262,14 @@ router.route("/VCO")
         var response={};
         var floor=req.body.floor;
         console.log(floor);
-        var vcos = require("./vcos.json");       
+              var vcos = require("./vcos.json"); 
         JSON.stringify(vcos);
         for(i=0; i<1; i++) {
             if(vcos.floor==floor)
                 response={"length": vcos.length, "xco": vcos.xco, "yco": vcos.yco};
         }
         res.json(response);       
-        console.log(response);
+        
     });
    
 app.use('/',router);
