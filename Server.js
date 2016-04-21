@@ -58,7 +58,7 @@ router.route("/AP/:BSSID")
                 response = {"error" : "Error fetching data"};
             } else {
                 try{
-                    response = {"xco" : data.xco, "yco" : data.yco};
+                    response = {"xco" : data.xco, "yco" : data.yco, "zco": data.zco};
                 }catch(e){
                     response = {"error" : "Error fetching data"};
                 }
@@ -138,7 +138,6 @@ router.route("/CAL")
         var y = (((v * (x3-x2) - u * (x1-x2)) / (((y1 - y2)*(x3 - x2))-((y3 - y2)*(x1 - x2)))));
         var x = (u - y * (y3 - y2) ) / (x3 - x2);
 
-        console.log(u,v);
         console.log({"xi":x,"yi":y});
         res.json({"xi":x,"yi":y});
     })
@@ -182,7 +181,7 @@ router.route("/LOC/:Room")
                 response = {"error" : "Error fetching data"};
             } else {
                 try{
-                    response = {"xco" : data.xco, "yco" : data.yco};
+                    response = {"xco" : data.xco, "yco" : data.yco, "zco": data.zco, "stairsx": 1610, "stairy": 960};
                 }catch(e){
                     response = {"error" : "Error fetching data"};
                 }
@@ -242,7 +241,7 @@ router.route("/LOC/:id")
 
 router.route("/Vertex")
     .post(function(req,res){
-        console.log(req.body);
+       
         var response={};
         var floor=req.body.floor;
         var vertex=req.body.vertex;
@@ -258,10 +257,10 @@ router.route("/Vertex")
 
 router.route("/VCO")
     .post(function(req,res){
-        console.log(req.body);
+        
         var response={};
         var floor=req.body.floor;
-        console.log(floor);
+        
               var vcos = require("./vcos.json"); 
         JSON.stringify(vcos);
         for(i=0; i<1; i++) {
