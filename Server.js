@@ -181,7 +181,7 @@ router.route("/LOC/:Room")
                 response = {"error" : "Error fetching data"};
             } else {
                 try{
-                    response = {"xco" : data.xco, "yco" : data.yco, "zco": data.zco, "stairsx": 1610, "stairy": 960};
+                    response = {"xco" : data.xco, "yco" : data.yco, "zco": data.zco, "stairx": 1610, "stairy": 960};
                 }catch(e){
                     response = {"error" : "Error fetching data"};
                 }
@@ -261,7 +261,7 @@ router.route("/VCO")
         var response={};
         var floor=req.body.floor;
         
-              var vcos = require("./vcos.json"); 
+        var vcos = require("./vcos.json"); 
         JSON.stringify(vcos);
         for(i=0; i<1; i++) {
             if(vcos.floor==floor)

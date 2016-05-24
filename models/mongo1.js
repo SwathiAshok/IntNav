@@ -6,4 +6,4 @@ var user  = {
     "yco" : Number,
     "zco" : Number
 };
-module.exports = mongoose.model('user',user);;
+module.exports = mongoose.model('user',user);
